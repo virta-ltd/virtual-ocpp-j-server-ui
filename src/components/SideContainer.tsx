@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, makeStyles, Paper, TextField } from '@material-ui/core';
-import ChargeBoxList from './ChargeBoxList';
+import StationList from './StationList';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,7 +46,7 @@ const SideContainer = () => {
         variant="outlined"
       />
 
-      <ChargeBoxList />
+      <StationList />
     </Paper>
   );
 };

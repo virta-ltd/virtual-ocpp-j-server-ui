@@ -14,18 +14,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ChargeBoxList = () => {
+const StationList = () => {
   const classes = useStyles();
 
   const [stations, setStations] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3004/stations')
+    fetch(`${process.env.REACT_APP_SERVER_URL}/stations`)
       .then((data) => data.json())
       .then((result) => setStations(result));
   }, []);
 
-  const chargeboxes = stations.map((station: any) => (
+  const stationsList = stations.map((station: any) => (
     <li className={classes.listElement} key={station.id}>
       <Button variant="outlined" color="primary">
         {station.identity}
@@ -41,9 +41,9 @@ const ChargeBoxList = () => {
         text="true"
         titleTypographyProps={{ variant: 'h6' }}
       />
-      <ul className={classes.listParent}>{chargeboxes}</ul>
+      <ul className={classes.listParent}>{stationsList}</ul>
     </div>
   );
 };
 
-export default ChargeBoxList;
+export default StationList;
