@@ -1,5 +1,6 @@
 import { Button, CardHeader, makeStyles } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { StationContext } from '../context/StationContext';
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -17,21 +18,31 @@ const useStyles = makeStyles((theme) => ({
 const StationList = () => {
   const classes = useStyles();
 
-  const [stations, setStations] = useState([]);
+  const {
+    selectStation,
+    getStations,
+    state: { stations, error },
+  } = useContext(StationContext);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_SERVER_URL}/stations`)
-      .then((data) => data.json())
-      .then((result) => setStations(result));
-  }, []);
+    getStations();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const stationsList = stations.map((station: any) => (
     <li className={classes.listElement} key={station.id}>
-      <Button variant="outlined" color="primary">
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={() => selectStation(station.id)}
+      >
         {station.identity}
       </Button>
     </li>
   ));
+
+  if (error) {
+    alert(error);
+  }
 
   return (
     <div>

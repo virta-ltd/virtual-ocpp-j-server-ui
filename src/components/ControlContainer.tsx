@@ -1,5 +1,6 @@
 import { CardHeader, makeStyles, Paper } from '@material-ui/core';
-import React from 'react';
+import React, { useContext } from 'react';
+import { StationContext } from '../context/StationContext';
 import ControlTabs from './ControlTabs';
 
 const useStyles = makeStyles((theme) => ({
@@ -17,11 +18,16 @@ const useStyles = makeStyles((theme) => ({
 
 const ControlContainer = () => {
   const classes = useStyles();
+
+  const {
+    state: { selectedStation },
+  } = useContext(StationContext);
+
   return (
     <Paper className={classes.root}>
       <CardHeader
         className={classes.header}
-        title="VIRTUAL-OCPPJ-STATION-1"
+        title={selectedStation?.identity ?? 'Please select station'}
         text="true"
         titleTypographyProps={{ variant: 'h6' }}
       />
