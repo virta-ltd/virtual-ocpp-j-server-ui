@@ -5,11 +5,10 @@ import ControlTabs from './ControlTabs';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flex: 1,
     paddingTop: theme.spacing(1),
     paddingLeft: theme.spacing(1),
     color: theme.palette.text.secondary,
-    minHeight: '100vh',
+    marginLeft: 1,
   },
   header: {
     padding: theme.spacing(1),
@@ -24,7 +23,7 @@ const ControlContainer = () => {
   } = useContext(StationContext);
 
   return (
-    <Paper className={classes.root}>
+    <Paper className={classes.root} elevation={0}>
       <CardHeader
         className={classes.header}
         title={selectedStation?.identity ?? 'Please select station'}
