@@ -1,6 +1,5 @@
 import React from 'react';
-import SwipeableViews from 'react-swipeable-views';
-import { makeStyles, Theme, useTheme } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -9,20 +8,19 @@ import Box from '@material-ui/core/Box';
 
 interface TabPanelProps {
   children?: React.ReactNode;
-  dir?: string;
   index: any;
   value: any;
 }
 
-const TabPanel = (props: TabPanelProps) => {
+function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
     <div
       role="tabpanel"
       hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
       {value === index && (
@@ -32,66 +30,63 @@ const TabPanel = (props: TabPanelProps) => {
       )}
     </div>
   );
-};
+}
 
 function a11yProps(index: any) {
   return {
-    id: `full-width-tab-${index}`,
-    'aria-controls': `full-width-tabpanel-${index}`,
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
   };
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
+    width: 750,
     backgroundColor: theme.palette.background.paper,
-    width: 700,
+  },
+  tab: {
+    width: 250,
   },
 }));
 
-export default function ControlTabs() {
+export default function SimpleTabs() {
   const classes = useStyles();
-  const theme = useTheme();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
 
-  const handleChangeIndex = (index: number) => {
-    setValue(index);
-  };
-
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="default">
+      <AppBar position="static">
         <Tabs
           value={value}
           onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          variant="fullWidth"
-          aria-label="full width tabs example"
+          aria-label="simple tabs example"
         >
-          <Tab label="Control Center" {...a11yProps(0)} />
-          <Tab label="Flow Control" {...a11yProps(1)} />
-          <Tab label="Station Information" {...a11yProps(2)} />
+          <Tab
+            className={classes.tab}
+            label="Control Center"
+            {...a11yProps(0)}
+          />
+          <Tab className={classes.tab} label="Flow Control" {...a11yProps(1)} />
+          <Tab
+            className={classes.tab}
+            label="Station Information"
+            {...a11yProps(2)}
+          />
         </Tabs>
       </AppBar>
-      <SwipeableViews
-        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-        index={value}
-        onChangeIndex={handleChangeIndex}
-      >
-        <TabPanel value={value} index={0} dir={theme.direction}>
-          Control Center
-        </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
-          Flow Control
-        </TabPanel>
-        <TabPanel value={value} index={2} dir={theme.direction}>
-          Station Information
-        </TabPanel>
-      </SwipeableViews>
+      <TabPanel value={value} index={0}>
+        Control Center
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        Flow Control
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        Station Information
+      </TabPanel>
     </div>
   );
 }

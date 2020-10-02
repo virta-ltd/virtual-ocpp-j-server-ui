@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(1),
     color: theme.palette.text.secondary,
     minHeight: '100vh',
+    paddingBottom: theme.spacing(1),
   },
   textField: {
     marginLeft: theme.spacing(1),
