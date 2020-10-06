@@ -3,7 +3,7 @@ import { Station } from '../model/Station';
 export type StationContextType = {
   state: StationContextState;
   selectStation: (id: number) => void;
-  getStations: () => void;
+  getStations: () => Promise<Station[]>;
 };
 
 export enum Actions {

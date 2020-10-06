@@ -5,6 +5,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import ControlCenter from './ControlCenter';
+import FlowControl from './FlowControl';
+import StationInformation from './StationInformation';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -25,7 +28,7 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          <Typography component={'span'}>{children}</Typography>
         </Box>
       )}
     </div>
@@ -49,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export default function SimpleTabs() {
+const SimpleTabs: React.FC = ({ children }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -79,14 +82,16 @@ export default function SimpleTabs() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        Control Center
+        <ControlCenter />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Flow Control
+        <FlowControl />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Station Information
+        <StationInformation />
       </TabPanel>
     </div>
   );
-}
+};
+
+export default SimpleTabs;

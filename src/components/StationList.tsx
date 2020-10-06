@@ -1,6 +1,7 @@
 import { Button, CardHeader, makeStyles } from '@material-ui/core';
 import React, { useContext, useEffect } from 'react';
 import { StationContext } from '../context/StationContext';
+import { Station } from '../model/Station';
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -12,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
   },
   listParent: {
     paddingLeft: '1rem',
+  },
+  button: {
+    textTransform: 'none',
   },
 }));
 
@@ -25,12 +29,19 @@ const StationList = () => {
   } = useContext(StationContext);
 
   useEffect(() => {
-    getStations();
+    getStations()
+      .then((stations) => {
+        if (stations.length > 0) {
+          selectStation(stations[0].id);
+        }
+      })
+      .catch(() => console.log('Error fetching stations'));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const stationsList = stations.map((station: any) => (
+  const stationsList = stations.map((station: Station) => (
     <li className={classes.listElement} key={station.id}>
       <Button
+        className={classes.button}
         variant="outlined"
         color="primary"
         onClick={() => selectStation(station.id)}
