@@ -1,4 +1,5 @@
 import React, { createContext, useReducer } from 'react';
+import { Station } from '../model/Station';
 import {
   StationContextState,
   StationContextType,
@@ -15,7 +16,7 @@ const initialState: StationContextState = {
 const StationContext = createContext<StationContextType>({
   state: initialState,
   selectStation: () => {},
-  getStations: () => {},
+  getStations: () => Promise.resolve([]),
 });
 
 const reducer = (state: StationContextState, action: StationReducerAction) => {
@@ -69,14 +70,15 @@ const StationProvider: React.FunctionComponent = ({ children }) => {
     }
   };
 
-  const getStations = async () => {
+  const getStations = async (): Promise<Station[]> => {
     try {
       const data = await fetch(`${process.env.REACT_APP_SERVER_URL}/stations`);
 
       if (!data.ok) {
-        return dispatchRequestError(
+        dispatchRequestError(
           `Error fetching all stations (${data.statusText})`
         );
+        return [];
       }
 
       const stations = await data.json();
@@ -85,8 +87,11 @@ const StationProvider: React.FunctionComponent = ({ children }) => {
         type: Actions.GET_STATIONS,
         payload: { stations },
       });
+
+      return stations;
     } catch (error) {
       dispatchRequestError(`Error fetching all stations (${error.message})`);
+      return [];
     }
   };
 
