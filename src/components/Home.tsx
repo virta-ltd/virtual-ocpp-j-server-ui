@@ -2,8 +2,8 @@ import React from 'react';
 import Header from './Header';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import SideContainer from './SideContainer';
-import ControlContainer from './ControlContainer';
+import SideContainer from './StationList/SideContainer';
+import ControlContainer from './ControlContainer/ControlContainer';
 
 const useStyles = makeStyles((theme) => ({
   root: {
