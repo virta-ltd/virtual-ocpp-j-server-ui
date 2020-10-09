@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { Button, IconButton, makeStyles, Theme } from '@material-ui/core';
-import { ChargePointOperations } from '../../context/ChargePointOperations';
+import { ChargePointOperations } from '../../model/ChargePointOperations';
 import EditIcon from '@material-ui/icons/Edit';
 import { StationContext } from '../../context/StationContext';
-import FormDialog from './FormDiaglog';
+import FormDialog from './Dialog/FormDiaglog';
+import { UIOperation } from '../../model/UIOperation';
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
@@ -27,6 +28,9 @@ const ControlCenter = () => {
   } | null>(null);
   const [pendingRequest, setPendingRequest] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
+  const [currentOperation, setCurrentOperation] = useState<UIOperation | null>(
+    null
+  );
 
   const classes = useStyles();
   const {
@@ -35,7 +39,7 @@ const ControlCenter = () => {
 
   const operations = [
     {
-      name: ChargePointOperations.BootNotificationn,
+      name: ChargePointOperations.BootNotification,
       requiredInput: false,
       editable: true,
     },
@@ -72,6 +76,7 @@ const ControlCenter = () => {
   // or maybe just start with the same
 
   const requestOperation = async (operation: string) => {
+    console.log(operation);
     const url = `${
       process.env.REACT_APP_SERVER_URL
     }/station/operations/${operation.toLowerCase()}`;
@@ -95,14 +100,26 @@ const ControlCenter = () => {
     setActionResponse(response);
   };
 
+  const onOperationClick = (operation: UIOperation, edit = false) => {
+    setCurrentOperation(operation);
+
+    if (operation?.requiredInput) {
+      return setOpen(true);
+    }
+
+    if (edit === true) {
+      return setOpen(true);
+    }
+
+    requestOperation(operation?.name ?? '');
+  };
+
   const operationButtons = operations.map((operation) => {
-    const { name, requiredInput, editable } = operation;
+    const { name, editable } = operation;
     return (
       <div key={name} className={classes.buttonContainer}>
         <Button
-          onClick={() =>
-            requiredInput ? setOpen(true) : requestOperation(name)
-          }
+          onClick={() => onOperationClick(operation)}
           className={classes.button}
           variant="outlined"
           color="primary"
@@ -113,7 +130,7 @@ const ControlCenter = () => {
           <IconButton
             aria-label="send customized message"
             color="primary"
-            onClick={() => setOpen(true)}
+            onClick={() => onOperationClick(operation, true)}
           >
             <EditIcon />
           </IconButton>
@@ -126,7 +143,11 @@ const ControlCenter = () => {
     <>
       <ul>{operationButtons}</ul>
 
-      <FormDialog open={open} setOpen={setOpen} />
+      <FormDialog
+        open={open}
+        setOpen={setOpen}
+        currentOperation={currentOperation}
+      />
 
       {pendingRequest ? 'Pending request' : null}
       {actionResponse?.status ? (
