@@ -70,24 +70,23 @@ const ControlCenter = () => {
     },
   ];
 
-  // type simple => 1 click
-  // type required to enter something
-  // type mixed? it can be both with 1 click or dialog with info?
-  // or maybe just start with the same
-
-  const requestOperation = async (operation: string) => {
+  const requestOperation = async (operation: string, payloadData: any = {}) => {
     console.log(operation);
     const url = `${
       process.env.REACT_APP_SERVER_URL
     }/station/operations/${operation.toLowerCase()}`;
     setActionResponse(null);
     const requestPayload = {
+      ...payloadData,
       stationId: selectedStation?.id,
     };
 
     setPendingRequest(true);
     const data = await fetch(url, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(requestPayload),
     });
     setPendingRequest(false);
@@ -98,6 +97,8 @@ const ControlCenter = () => {
     const response = await data.json();
 
     setActionResponse(response);
+
+    return response;
   };
 
   const onOperationClick = (operation: UIOperation, edit = false) => {
@@ -147,14 +148,26 @@ const ControlCenter = () => {
         open={open}
         setOpen={setOpen}
         currentOperation={currentOperation}
+        requestOperation={requestOperation}
       />
 
       {pendingRequest ? 'Pending request' : null}
       {actionResponse?.status ? (
         <div>
           <p>Result: {actionResponse.status}</p>
-          <p>Request: {actionResponse.request}</p>
-          <p>Response: {actionResponse.response}</p>
+
+          <p>
+            Request: <br></br>
+          </p>
+          <pre>
+            {JSON.stringify(JSON.parse(actionResponse.request), null, 2)}
+          </pre>
+          <p>
+            Response: <br></br>
+          </p>
+          <pre>
+            {JSON.stringify(JSON.parse(actionResponse.response), null, 2)}
+          </pre>
         </div>
       ) : null}
     </>

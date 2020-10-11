@@ -1,7 +1,10 @@
 import React from 'react';
 import { DialogContent, DialogContentText, TextField } from '@material-ui/core';
+import { DiaglogContentProps } from './DialogContentProps';
 
-const StartTransactionDialogContent = () => (
+const StartTransactionDialogContent: React.FC<DiaglogContentProps> = ({
+  setPayloadData,
+}) => (
   <DialogContent>
     <DialogContentText>
       Please enter idTag to send to Central System

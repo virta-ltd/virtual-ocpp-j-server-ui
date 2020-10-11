@@ -12,7 +12,9 @@ const FormDialog: React.FC<FormDiaglogProps> = ({
   open,
   setOpen,
   currentOperation,
+  requestOperation,
 }: FormDiaglogProps) => {
+  const [payloadData, setPayloadData] = useState({});
   if (currentOperation === null) {
     return null;
   }
@@ -21,21 +23,23 @@ const FormDialog: React.FC<FormDiaglogProps> = ({
     setOpen(false);
   };
 
-  const handleSend = () => {
-    console.log('Message sent');
+  const handleSend = async () => {
     setOpen(false);
+    await requestOperation(currentOperation.name, payloadData);
   };
 
   const getDialogContent = () => {
     let dialogContent;
     switch (currentOperation.name) {
       case ChargePointOperations.StartTransaction:
-        console.log(currentOperation);
-        dialogContent = <StartTransactionDialogContent />;
+        dialogContent = (
+          <StartTransactionDialogContent setPayloadData={setPayloadData} />
+        );
         break;
       case ChargePointOperations.StopTransaction:
-        console.log(currentOperation);
-        dialogContent = <StopTransactionDialogContent />;
+        dialogContent = (
+          <StopTransactionDialogContent setPayloadData={setPayloadData} />
+        );
         break;
       default:
         dialogContent = null;
@@ -71,6 +75,9 @@ type FormDiaglogProps = {
   open: boolean;
   setOpen: Function;
   currentOperation: UIOperation | null;
+  requestOperation: Function;
 };
 
 export default FormDialog;
+
+// maybe a FormContext to update form???
