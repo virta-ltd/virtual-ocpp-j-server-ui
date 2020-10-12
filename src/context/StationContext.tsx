@@ -32,7 +32,7 @@ const reducer = (state: StationContextState, action: StationReducerAction) => {
   }
 };
 
-const StationProvider: React.FunctionComponent = ({ children }) => {
+const StationContextProvider: React.FunctionComponent = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const dispatchRequestError = (message: string) => {
@@ -102,4 +102,4 @@ const StationProvider: React.FunctionComponent = ({ children }) => {
   );
 };
 
-export { StationProvider, StationContext };
+export { StationContextProvider, StationContext };

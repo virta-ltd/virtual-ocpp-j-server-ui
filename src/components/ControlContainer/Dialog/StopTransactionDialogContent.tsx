@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { DialogContent, DialogContentText, TextField } from '@material-ui/core';
-import { DiaglogContentProps } from './DialogContentProps';
+import { OperationContext } from '../../../context/OperationContext';
 
-const StopTransactionDialogContent: React.FC<DiaglogContentProps> = ({
-  setPayloadData,
-}) => {
-  const [data, setData] = useState<any>({
+const StopTransactionDialogContent: React.FC = () => {
+  const {
+    state: { requestPayload },
+    setRequestPayload,
+  } = useContext(OperationContext);
+
+  const initialData = {
     transactionId: 0,
-  });
+  };
+
+  useEffect(() => {
+    setRequestPayload(initialData);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onChangeText: ChangeTextEventFunc = ({ target: { name, value } }) => {
-    setData({
-      ...data,
-      [name]: value,
-    });
-    setPayloadData({
-      ...data,
-      [name]: value,
-    });
+    setRequestPayload({ ...requestPayload, [name]: value });
   };
 
   return (
@@ -28,7 +28,7 @@ const StopTransactionDialogContent: React.FC<DiaglogContentProps> = ({
         margin="dense"
         id="transactionId"
         onChange={onChangeText}
-        value={data?.transactionId}
+        value={requestPayload?.transactionId ?? initialData.transactionId}
         name="transactionId"
         label="Transaction Id"
         type="text"

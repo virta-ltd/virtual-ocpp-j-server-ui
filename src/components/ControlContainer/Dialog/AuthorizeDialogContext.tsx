@@ -3,7 +3,7 @@ import { DialogContent, DialogContentText, TextField } from '@material-ui/core';
 import { OperationContext } from '../../../context/OperationContext';
 import { ChangeTextEventFunc } from '../../../model/Helper';
 
-const StartTransactionDialogContent: React.FC = () => {
+const AuthorizeDialogContext: React.FC = () => {
   const {
     state: { requestPayload },
     setRequestPayload,
@@ -40,4 +40,4 @@ const StartTransactionDialogContent: React.FC = () => {
   );
 };
 
-export default StartTransactionDialogContent;
+export default AuthorizeDialogContext;

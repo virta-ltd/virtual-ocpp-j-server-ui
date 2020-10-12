@@ -6,4 +6,5 @@ export enum ChargePointOperations {
   Heartbeat = 'Heartbeat',
   MeterValues = 'MeterValues',
   StatusNotification = 'StatusNotification',
+  Unknown = '',
 }

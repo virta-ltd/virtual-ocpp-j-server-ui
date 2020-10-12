@@ -5,6 +5,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import { StationContext } from '../../context/StationContext';
 import FormDialog from './Dialog/FormDiaglog';
 import { UIOperation } from '../../model/UIOperation';
+import { OperationContext } from '../../context/OperationContext';
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
@@ -21,21 +22,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const ControlCenter = () => {
-  const [actionResponse, setActionResponse] = useState<{
-    status: string;
-    request: string;
-    response: string;
-  } | null>(null);
-  const [pendingRequest, setPendingRequest] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
-  const [currentOperation, setCurrentOperation] = useState<UIOperation | null>(
-    null
-  );
 
   const classes = useStyles();
   const {
     state: { selectedStation },
   } = useContext(StationContext);
+
+  const {
+    state: { responsePayload },
+    setCurrentOperation,
+    sendOperationRequest,
+  } = useContext(OperationContext);
 
   const operations = [
     {
@@ -70,41 +68,12 @@ const ControlCenter = () => {
     },
   ];
 
-  const requestOperation = async (operation: string, payloadData: any = {}) => {
-    console.log(operation);
-    const url = `${
-      process.env.REACT_APP_SERVER_URL
-    }/station/operations/${operation.toLowerCase()}`;
-    setActionResponse(null);
-    const requestPayload = {
-      ...payloadData,
-      stationId: selectedStation?.id,
-    };
-
-    setPendingRequest(true);
-    const data = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestPayload),
-    });
-    setPendingRequest(false);
-
-    if (!data.ok) {
-      return console.log('error');
-    }
-    const response = await data.json();
-
-    setActionResponse(response);
-
-    return response;
-  };
-
   const onOperationClick = (operation: UIOperation, edit = false) => {
-    setCurrentOperation(operation);
+    console.log('Operation clicked', operation);
+    setCurrentOperation(operation.name);
 
     if (operation?.requiredInput) {
+      console.log('required input op');
       return setOpen(true);
     }
 
@@ -112,7 +81,9 @@ const ControlCenter = () => {
       return setOpen(true);
     }
 
-    requestOperation(operation?.name ?? '');
+    if (selectedStation?.id) {
+      sendOperationRequest(selectedStation.id);
+    }
   };
 
   const operationButtons = operations.map((operation) => {
@@ -144,29 +115,24 @@ const ControlCenter = () => {
     <>
       <ul>{operationButtons}</ul>
 
-      <FormDialog
-        open={open}
-        setOpen={setOpen}
-        currentOperation={currentOperation}
-        requestOperation={requestOperation}
-      />
+      <FormDialog open={open} setOpen={setOpen} />
 
-      {pendingRequest ? 'Pending request' : null}
-      {actionResponse?.status ? (
+      {responsePayload.status === 'pending' ? 'Pending request' : null}
+      {responsePayload?.status === 'success' ? (
         <div>
-          <p>Result: {actionResponse.status}</p>
+          <p>Result: {responsePayload.status}</p>
 
           <p>
             Request: <br></br>
           </p>
           <pre>
-            {JSON.stringify(JSON.parse(actionResponse.request), null, 2)}
+            {JSON.stringify(JSON.parse(responsePayload.request), null, 2)}
           </pre>
           <p>
             Response: <br></br>
           </p>
           <pre>
-            {JSON.stringify(JSON.parse(actionResponse.response), null, 2)}
+            {JSON.stringify(JSON.parse(responsePayload.response), null, 2)}
           </pre>
         </div>
       ) : null}
