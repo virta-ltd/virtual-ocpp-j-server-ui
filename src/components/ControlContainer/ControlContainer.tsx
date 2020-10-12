@@ -1,6 +1,6 @@
 import { CardHeader, makeStyles, Paper } from '@material-ui/core';
 import React, { useContext } from 'react';
-import { StationContext } from '../context/StationContext';
+import { StationContext } from '../../context/StationContext';
 import ControlTabs from './ControlTabs';
 
 const useStyles = makeStyles((theme) => ({

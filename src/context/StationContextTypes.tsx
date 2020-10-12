@@ -10,6 +10,7 @@ export enum Actions {
   SELECT_STATION = 'select_station',
   GET_STATIONS = 'get_stations',
   REQUEST_ERROR = 'request_error',
+  PERFORM_OPERATION = 'perform_operation',
 }
 
 export type StationReducerAction =

@@ -6,8 +6,8 @@ import {
   Theme,
 } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react';
-import { StationContext } from '../context/StationContext';
-import { Station } from '../model/Station';
+import { StationContext } from '../../context/StationContext';
+import { Station } from '../../model/Station';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -119,7 +119,7 @@ const StationInformation = () => {
         />
         <div className={classes.buttonContainer}>
           <Button variant="contained" color="primary">
-            Submit
+            Update
           </Button>
         </div>
       </form>

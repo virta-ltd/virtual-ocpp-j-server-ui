@@ -1,12 +1,15 @@
 import React from 'react';
 import './App.css';
 import Home from './components/Home';
-import { StationProvider } from './context/StationContext';
+import { OperationContextProvider } from './context/OperationContext';
+import { StationContextProvider } from './context/StationContext';
 
 export default function () {
   return (
-    <StationProvider>
-      <Home />
-    </StationProvider>
+    <StationContextProvider>
+      <OperationContextProvider>
+        <Home />
+      </OperationContextProvider>
+    </StationContextProvider>
   );
 }

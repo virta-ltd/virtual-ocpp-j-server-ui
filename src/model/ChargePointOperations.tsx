@@ -1,9 +1,10 @@
 export enum ChargePointOperations {
   Authorize = 'Authorize',
-  BootNotificationn = 'BootNotification',
+  BootNotification = 'BootNotification',
   StartTransaction = 'StartTransaction',
   StopTransaction = 'StopTransaction',
   Heartbeat = 'Heartbeat',
   MeterValues = 'MeterValues',
   StatusNotification = 'StatusNotification',
+  Unknown = '',
 }

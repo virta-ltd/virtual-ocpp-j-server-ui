@@ -1,7 +1,7 @@
 import { Button, CardHeader, makeStyles } from '@material-ui/core';
 import React, { useContext, useEffect } from 'react';
-import { StationContext } from '../context/StationContext';
-import { Station } from '../model/Station';
+import { StationContext } from '../../context/StationContext';
+import { Station } from '../../model/Station';
 
 const useStyles = makeStyles((theme) => ({
   header: {
