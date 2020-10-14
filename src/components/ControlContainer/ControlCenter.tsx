@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { Button, IconButton, makeStyles, Theme } from '@material-ui/core';
-import { ChargePointOperations } from '../../model/ChargePointOperations';
 import EditIcon from '@material-ui/icons/Edit';
-import { StationContext } from '../../context/StationContext';
-import FormDialog from './Dialog/FormDiaglog';
-import { UIOperation } from '../../model/UIOperation';
 import { OperationContext } from '../../context/OperationContext';
+import { StationContext } from '../../context/StationContext';
+import { ChargePointOperations } from '../../model/ChargePointOperations';
+import { UIOperation } from '../../model/UIOperation';
+import FormDialog from './Dialog/FormDiaglog';
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
@@ -69,11 +69,9 @@ const ControlCenter = () => {
   ];
 
   const onOperationClick = (operation: UIOperation, edit = false) => {
-    console.log('Operation clicked', operation);
     setCurrentOperation(operation.name);
 
     if (operation?.requiredInput) {
-      console.log('required input op');
       return setOpen(true);
     }
 

@@ -3,12 +3,13 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { ChargePointOperations } from '../../../model/ChargePointOperations';
-import StartTransactionDialogContent from './StartTransactionDialogContent';
-import StopTransactionDialogContent from './StopTransactionDialogContent';
 import { OperationContext } from '../../../context/OperationContext';
 import { StationContext } from '../../../context/StationContext';
+import { ChargePointOperations } from '../../../model/ChargePointOperations';
 import AuthorizeDialogContext from './AuthorizeDialogContext';
+import StartTransactionDialogContent from './StartTransactionDialogContent';
+import StatusNotificationDialogContent from './StatusNotificationDialogContent';
+import StopTransactionDialogContent from './StopTransactionDialogContent';
 
 const FormDialog: React.FC<FormDiaglogProps> = ({
   open,
@@ -47,6 +48,9 @@ const FormDialog: React.FC<FormDiaglogProps> = ({
         break;
       case ChargePointOperations.StopTransaction:
         dialogContent = <StopTransactionDialogContent />;
+        break;
+      case ChargePointOperations.StatusNotification:
+        dialogContent = <StatusNotificationDialogContent />;
         break;
       default:
         dialogContent = null;
