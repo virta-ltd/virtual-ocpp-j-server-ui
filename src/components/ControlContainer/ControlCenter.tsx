@@ -26,11 +26,12 @@ const ControlCenter = () => {
 
   const classes = useStyles();
   const {
+    selectStation,
     state: { selectedStation },
   } = useContext(StationContext);
 
   const {
-    state: { responsePayload },
+    state: { responsePayload, error },
     setCurrentOperation,
     sendOperationRequest,
   } = useContext(OperationContext);
@@ -68,7 +69,7 @@ const ControlCenter = () => {
     },
   ];
 
-  const onOperationClick = (operation: UIOperation, edit = false) => {
+  const onOperationClick = async (operation: UIOperation, edit = false) => {
     setCurrentOperation(operation.name);
 
     if (operation?.requiredInput) {
@@ -80,7 +81,8 @@ const ControlCenter = () => {
     }
 
     if (selectedStation?.id) {
-      sendOperationRequest(selectedStation.id);
+      await sendOperationRequest(selectedStation.id);
+      selectStation(selectedStation.id);
     }
   };
 
@@ -115,11 +117,9 @@ const ControlCenter = () => {
 
       <FormDialog open={open} setOpen={setOpen} />
 
-      {responsePayload.status === 'pending' ? 'Pending request' : null}
-      {responsePayload?.status === 'success' ? (
+      {responsePayload.status === 'pending' ? 'Pending request' : error}
+      {responsePayload.request ? (
         <div>
-          <p>Result: {responsePayload.status}</p>
-
           <p>
             Request: <br></br>
           </p>

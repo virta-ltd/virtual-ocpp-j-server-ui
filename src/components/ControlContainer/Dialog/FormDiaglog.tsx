@@ -20,6 +20,7 @@ const FormDialog: React.FC<FormDiaglogProps> = ({
     sendOperationRequest,
   } = useContext(OperationContext);
   const {
+    selectStation,
     state: { selectedStation },
   } = useContext(StationContext);
 
@@ -35,6 +36,7 @@ const FormDialog: React.FC<FormDiaglogProps> = ({
     if (selectedStation === null) return;
     setOpen(false);
     await sendOperationRequest(selectedStation.id);
+    selectStation(selectedStation.id);
   };
 
   const getDialogContent = () => {

@@ -17,7 +17,8 @@ const StopTransactionDialogContent: React.FC = () => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onChangeText: ChangeTextEventFunc = ({ target: { name, value } }) => {
-    setRequestPayload({ ...requestPayload, [name]: value });
+    const parsedValue = name === 'transactionId' ? parseInt(value) : value;
+    setRequestPayload({ ...requestPayload, [name]: parsedValue });
   };
 
   return (

@@ -8,6 +8,8 @@ import {
 } from '@material-ui/core';
 import { OperationContext } from '../../../context/OperationContext';
 import { ChangeSelectEventFunc } from '../../../model/Helper';
+import { StatusNotificationErrorCodeEnum } from '../../../model/StatusNotificationErrorCodeEnum';
+import { StatusNotificationStatusEnum } from '../../../model/StatusNotificationStatusEnum';
 
 const useStyles = makeStyles(() => ({
   selectContainer: {
@@ -57,9 +59,9 @@ const StatusNotificationDialogContent: React.FC = () => {
             id: 'status',
           }}
         >
-          <option aria-label="None" value="" />
-          <option value={'Available'}>Available</option>
-          <option value={'Charging'}>Charging</option>
+          {Object.values(StatusNotificationStatusEnum).map((value) => (
+            <option value={value}>{value}</option>
+          ))}
         </Select>
       </div>
       <div className={classes.selectContainer}>
@@ -74,8 +76,9 @@ const StatusNotificationDialogContent: React.FC = () => {
             id: 'errorCode',
           }}
         >
-          <option aria-label="None" value="" />
-          <option value={'NoError'}>NoError</option>
+          {Object.values(StatusNotificationErrorCodeEnum).map((value) => (
+            <option value={value}>{value}</option>
+          ))}
         </Select>
       </div>
     </DialogContent>

@@ -36,5 +36,5 @@ export type OperationReducerAction =
     }
   | {
       type: Actions.REQUEST_ERROR;
-      payload: { error: string };
+      payload: { error: string; responsePayload: any };
     };

@@ -31,6 +31,7 @@ const OperationContextProvider: React.FunctionComponent = ({ children }) => {
       type: Actions.REQUEST_ERROR,
       payload: {
         error: message,
+        responsePayload: { status: 'Error requesting operation' },
       },
     });
   };
@@ -65,7 +66,7 @@ const OperationContextProvider: React.FunctionComponent = ({ children }) => {
 
     const url = `${
       process.env.REACT_APP_SERVER_URL
-    }/station/operations/${operation.toLowerCase()}`;
+    }/stations/${stationId}/operations/${operation.toLowerCase()}`;
 
     dispatch({
       type: Actions.SEND_OPERATION_REQUEST,
@@ -74,7 +75,6 @@ const OperationContextProvider: React.FunctionComponent = ({ children }) => {
 
     const payload = {
       ...requestPayload,
-      stationId: stationId,
     };
 
     const data = await fetch(url, {
@@ -86,6 +86,7 @@ const OperationContextProvider: React.FunctionComponent = ({ children }) => {
     });
 
     if (!data.ok) {
+      console.log('Error sending operation request');
       return dispatchRequestError(
         `Error sending request for operation ${operation}: (${data.statusText})`
       );
@@ -134,7 +135,11 @@ const reducer: Reducer<OperationContextState, OperationReducerAction> = (
         error: '',
       };
     case Actions.REQUEST_ERROR:
-      return { ...state, error: action.payload.error };
+      return {
+        ...state,
+        error: action.payload.error,
+        responsePayload: action.payload.responsePayload,
+      };
     default:
       return state;
   }
