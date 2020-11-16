@@ -1,0 +1,24 @@
+# secret env
+.env
+
+# Node Files #
+node_modules
+npm-debug.log
+npm-debug.log.*
+dist
+
+# Tests
+/coverage
+/.nyc_output
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
