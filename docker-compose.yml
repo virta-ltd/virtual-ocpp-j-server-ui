@@ -13,3 +13,9 @@ services:
       - .:/app
     command: 'npm run start'
     stdin_open: true
+    networks:
+      - ocppj-virtual-network
+
+networks:
+  ocppj-virtual-network:
+    driver: bridge
