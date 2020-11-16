@@ -16,9 +16,13 @@ RUN npm install
 
 # Later stages are for prod only
 FROM base as build
+ENV REACT_APP_SERVER_URL="/api"
 COPY public public/
+COPY tsconfig.json tsconfig.json
 COPY src src/
 RUN npm run build
 
 FROM nginx
-COPY --from=builder /app/build /usr/share/nginx/html
+EXPOSE 3000
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/build /usr/share/nginx/html
