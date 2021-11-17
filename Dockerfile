@@ -16,7 +16,6 @@ RUN npm install
 
 # Later stages are for prod only
 FROM base as build
-ENV REACT_APP_SERVER_URL="/api"
 COPY public public/
 COPY tsconfig.json tsconfig.json
 COPY src src/
