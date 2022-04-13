@@ -59,7 +59,7 @@ const ControlCenter = () => {
     },
     {
       name: ChargePointOperations.StopTransaction,
-      requiredInput: true,
+      requiredInput: false,
       editable: true,
     },
     {
