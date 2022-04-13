@@ -11,6 +11,7 @@ const StartTransactionDialogContent: React.FC = () => {
 
   const initialData = {
     idTag: 'idTag',
+    timestamp: new Date().toISOString(),
   };
 
   useEffect(() => {
@@ -29,12 +30,24 @@ const StartTransactionDialogContent: React.FC = () => {
       <TextField
         autoFocus
         margin="dense"
+        fullWidth
         id="idTag"
         label="idTag"
         type="text"
         name="idTag"
         onChange={onChangeText}
         value={requestPayload?.idTag ?? initialData.idTag}
+      />
+      <TextField
+        autoFocus
+        margin="dense"
+        fullWidth
+        id="timestamp"
+        label="timestamp"
+        type="text"
+        name="timestamp"
+        onChange={onChangeText}
+        value={requestPayload?.timestamp ?? initialData.idTag}
       />
     </DialogContent>
   );
